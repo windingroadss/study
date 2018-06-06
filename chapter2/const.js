@@ -14,6 +14,10 @@
   var pizza = true
   pizza = false
   console.log(pizza)
+
+  // ES6부터 상수가 도입됐다
+  const pizza = true
+  pizza = false
 </script>
 </body>
 </html>
