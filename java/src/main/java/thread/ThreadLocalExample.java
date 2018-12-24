@@ -7,7 +7,6 @@ public class ThreadLocalExample {
         //private ThreadLocal<Integer> threadLocal = new ThreadLocal<Integer>();
         private int a;
 
-        @Override
         public void run() {
             //threadLocal.set((int) (Math.random() * 100D));
             a = (int) (Math.random() * 100D);
