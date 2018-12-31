@@ -123,7 +123,7 @@ public class KryoTest {
     public void missingNoArgConstructorTest() {
         List<String> receivedMids = Lists.newArrayList("adfd");
 
-        //Set<String> failedMids = Sets.newHashSet(receivedMids);
+        //Set<String> failedMids = SetsTest.newHashSet(receivedMids);
         Set<String> failedMids = Sets.newHashSet(new ArrayList<String>());
 
         Kryo kryo = new Kryo();
