@@ -1,6 +1,8 @@
 package thread;
 
-public class MDCThreadLocal {
+import java.util.ArrayList;
+
+public class MDCThreadLocal<T> {
     static final ThreadLocal threadLocal = new ThreadLocal();
     static int a = (int) (Math.random() * 100D);
 
@@ -11,4 +13,13 @@ public class MDCThreadLocal {
     public static void get() {
         System.out.println(threadLocal);
     }
+
+    public static <E> void genericCall(E e) {
+
+    }
+
+    public static <E> void genericCall(Class<E> e) {
+
+    }
+
 }
