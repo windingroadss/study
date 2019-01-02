@@ -28,110 +28,110 @@ import sun.plugin2.message.Message;
 
 public class KryoTest {
 
-    private Kryo kryo;
-    private Input input;
-    private Output output;
+  private Kryo kryo;
+  private Input input;
+  private Output output;
 
-    private FileOutputStream fileOutputStream;
-    private FileInputStream fileInputStream;
+  private FileOutputStream fileOutputStream;
+  private FileInputStream fileInputStream;
 
-    @Before
-    public void init() throws FileNotFoundException {
-        kryo = new Kryo();
+  @Before
+  public void init() throws FileNotFoundException {
+    kryo = new Kryo();
 
-        fileOutputStream = new FileOutputStream("file.dat");
-        fileInputStream = new FileInputStream("file.dat");
+    fileOutputStream = new FileOutputStream("file.dat");
+    fileInputStream = new FileInputStream("file.dat");
 
-        output = new Output(fileOutputStream);
-        input = new Input(fileInputStream);
-    }
+    output = new Output(fileOutputStream);
+    input = new Input(fileInputStream);
+  }
 
-    @Test
-    public void givenObject_whenSerializing_thenReadCorrectly() {
-        Object someObject = "Some string";
+  @Test
+  public void givenObject_whenSerializing_thenReadCorrectly() {
+    Object someObject = "Some string";
 
-        kryo.writeClassAndObject(output, someObject);
-        output.close();
+    kryo.writeClassAndObject(output, someObject);
+    output.close();
 
-        Object theObject = kryo.readClassAndObject(input);
-        input.close();
+    Object theObject = kryo.readClassAndObject(input);
+    input.close();
 
-        assertEquals(theObject, "Some string");
-    }
+    assertEquals(theObject, "Some string");
+  }
 
-    @Test
-    public void givenObjects_whenSerializing_thenReadCorrectly() {
-        String someString = "Multiple Objects";
-        Date someDate = new Date(915170400000L);
+  @Test
+  public void givenObjects_whenSerializing_thenReadCorrectly() {
+    String someString = "Multiple Objects";
+    Date someDate = new Date(915170400000L);
 
-        kryo.writeObject(output, someString);
-        kryo.writeObject(output, someDate);
-        output.close();
+    kryo.writeObject(output, someString);
+    kryo.writeObject(output, someDate);
+    output.close();
 
-        String readString = kryo.readObject(input, String.class);
-        Date readDate = kryo.readObject(input, Date.class);
-        input.close();
+    String readString = kryo.readObject(input, String.class);
+    Date readDate = kryo.readObject(input, Date.class);
+    input.close();
 
-        assertEquals(readString, "Multiple Objects");
-        assertEquals(readDate.getTime(), 915170400000L);
-    }
+    assertEquals(readString, "Multiple Objects");
+    assertEquals(readDate.getTime(), 915170400000L);
+  }
 
-    @Test
-    public void givenPerson_whenSerializing_thenReadCorrectly() {
-        Person person = new Person();
+  @Test
+  public void givenPerson_whenSerializing_thenReadCorrectly() {
+    Person person = new Person();
 
-        kryo.writeObject(output, person);
-        output.close();
+    kryo.writeObject(output, person);
+    output.close();
 
-        Person readPerson = kryo.readObject(input, Person.class);
-        input.close();
+    Person readPerson = kryo.readObject(input, Person.class);
+    input.close();
 
-        assertEquals(readPerson.getName(), "John Doe");
-    }
+    assertEquals(readPerson.getName(), "John Doe");
+  }
 
-    @Test
-    public void givenPerson_whenUsingCustomSerializer_thenReadCorrectly() {
-        Person person = new Person();
-        person.setAge(0);
+  @Test
+  public void givenPerson_whenUsingCustomSerializer_thenReadCorrectly() {
+    Person person = new Person();
+    person.setAge(0);
 
-        kryo.register(Person.class, new PersonSerializer());
-        kryo.writeObject(output, person);
-        output.close();
+    kryo.register(Person.class, new PersonSerializer());
+    kryo.writeObject(output, person);
+    output.close();
 
-        Person copyPerson = kryo.copy(person);
-        Person readPerson = kryo.readObject(input, Person.class);
-        input.close();
+    Person copyPerson = kryo.copy(person);
+    Person readPerson = kryo.readObject(input, Person.class);
+    input.close();
 
-        assertEquals(copyPerson.getName(), "John Doe");
-        assertEquals(copyPerson.getAge(), 18);
-    }
+    assertEquals(copyPerson.getName(), "John Doe");
+    assertEquals(copyPerson.getAge(), 18);
+  }
 
-    @Test
-    public void givenPerson_whenWithNoDefaultConstructor_thenReadCorrectly() {
-        NoDefaultConstructorChild child = new NoDefaultConstructorChild(1);
+  @Test
+  public void givenPerson_whenWithNoDefaultConstructor_thenReadCorrectly() {
+    NoDefaultConstructorChild child = new NoDefaultConstructorChild(1);
 
-        kryo.writeObject(output, child);
-        output.close();
+    kryo.writeObject(output, child);
+    output.close();
 
-        NoDefaultConstructor readChild = kryo.readObject(input, NoDefaultConstructorChild.class);
-        input.close();
+    NoDefaultConstructor readChild = kryo.readObject(input, NoDefaultConstructorChild.class);
+    input.close();
 
-        assertEquals(child.getNumber(), 1);
-    }
+    assertEquals(child.getNumber(), 1);
+  }
 
-    @Test
-    public void missingNoArgConstructorTest() {
-        List<String> receivedMids = Lists.newArrayList("adfd");
+  @Test
+  public void missingNoArgConstructorTest() {
+    List<String> receivedMids = Lists.newArrayList("adfd");
 
-        //Set<String> failedMids = SetsTest.newHashSet(receivedMids);
-        Set<String> failedMids = Sets.newHashSet(new ArrayList<String>());
+    //Set<String> failedMids = SetsTest.newHashSet(receivedMids);
+    Set<String> failedMids = Sets.newHashSet(new ArrayList<String>());
 
-        Kryo kryo = new Kryo();
-        //kryo.register(Set.class);
+    Kryo kryo = new Kryo();
+    //kryo.register(Set.class);
 
-        kryo.writeObject(output, failedMids);
-        output.close();
+    kryo.writeObject(output, failedMids);
+    output.close();
 
-        Set<String> failedMids2 = kryo.readObject(input, Set.class);
-    }
+    Set<String> failedMids2 = kryo.readObject(input, Set.class);
+  }
 }

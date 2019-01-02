@@ -1,7 +1,7 @@
 package generic.wildcard;
 
 public class CarWildcardSample {
-  public static void main(String[] ar){
+  public static void main(String[] ar) {
     CarWildcardSample ex = new CarWildcardSample();
     ex.callBoundedWildcardMethod();
     ex.callBusBoundedWildcardMethod();
@@ -12,7 +12,7 @@ public class CarWildcardSample {
     System.out.println(result);
   }
 
-  public void callBoundedWildcardMethod(){
+  public void callBoundedWildcardMethod() {
     WildCardGeneric<Car> wildcard = new WildCardGeneric<Car>();
     wildcard.setWildCard(new Car("Mustang"));
     boundedWildcardMethod(wildcard);
@@ -23,12 +23,12 @@ public class CarWildcardSample {
    * Car class 와 Car class 를 상속받은 클래스가 param으로 올 수 있음
    * @param c : Car or Car class's child class
    */
-  public void boundedWildcardMethod(WildCardGeneric<? extends Car> c){
+  public void boundedWildcardMethod(WildCardGeneric<? extends Car> c) {
     Car value = c.getWildCard();
     System.out.println(value);
   }
 
-  public void callBusBoundedWildcardMethod(){
+  public void callBusBoundedWildcardMethod() {
     WildCardGeneric<Bus> wildcard = new WildCardGeneric<Bus>();
     wildcard.setWildCard(new Bus("7777"));
     boundedWildcardMethod(wildcard);
@@ -44,9 +44,6 @@ public class CarWildcardSample {
 
     System.out.println("##############genericMethod##############");
 
-    if(addValue1 instanceof String)
-      return (S)(addValue1 + " called");
-    else
-      return addValue1;
+    if (addValue1 instanceof String) { return (S) (addValue1 + " called"); } else { return addValue1; }
   }
 }

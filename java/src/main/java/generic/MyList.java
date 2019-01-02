@@ -16,7 +16,7 @@ public class MyList<E> {
     this.element[index++] = e;
   }
 
-  public E get(int index){
+  public E get(int index) {
     return (E) element[index];
   }
 
