@@ -1,11 +1,10 @@
 package guava;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.Sets;
@@ -41,7 +40,7 @@ public class SetsTest {
             }
         }
 
-        assertEquals(combinedReceivedMidsAddAll, combinedReceivedMidsUnion);
+        Assertions.assertEquals(combinedReceivedMidsAddAll, combinedReceivedMidsUnion);
     }
 
 }
