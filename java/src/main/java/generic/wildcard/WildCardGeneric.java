@@ -10,11 +10,11 @@ public class WildCardGeneric<W> {
     wildCard = w;
   }
 
-  public void setWildCard(W wildCard){
+  public void setWildCard(W wildCard) {
     this.wildCard = wildCard;
   }
 
-  public W getWildCard(){
+  public W getWildCard() {
     return wildCard;
   }
 }
