@@ -3,6 +3,15 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
+  <filter>
+    <filter-name>myFilter</filter-name>
+    <filter-class>com.tistory.windingroad.MyFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>myFilter</filter-name>
+    <servlet-name>helloServlet</servlet-name> <!-- 특정 서블릿에 적용 -->
+  </filter-mapping>
 
   <servlet>
     <servlet-name>helloServlet</servlet-name>
@@ -13,5 +22,23 @@
     <servlet-name>helloServlet</servlet-name>
     <url-pattern>/hello</url-pattern>
   </servlet-mapping>
+  
+  <listener>
+    <listener-class>com.tistory.windingroad.MyListener</listener-class>
+  </listener>
+
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+
+  <context-param>
+    <param-name>contextClass</param-name>
+    <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>com.tistory.windingroad.AppConfig</param-value>
+  </context-param>
 
 </web-app>
