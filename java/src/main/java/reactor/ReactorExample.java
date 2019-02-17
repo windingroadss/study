@@ -6,10 +6,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
@@ -37,7 +40,7 @@ public class ReactorExample {
   }
 
   @Test
-  void subscribeTest() {
+  public void subscribeTest() {
     List<Integer> elements = new ArrayList<>();
 
     Flux.just(1, 2, 3, 4)
@@ -68,7 +71,7 @@ public class ReactorExample {
   }
 
   @Test
-  void testRequest() {
+  public void testRequest() {
     List<Integer> elements = new ArrayList<>();
 
     /**
@@ -106,7 +109,7 @@ public class ReactorExample {
   }
 
   @Test
-  void mappingDataInStreamTest() {
+  public void mappingDataInStreamTest() {
     List<Integer> elements = new ArrayList<>();
 
     Flux.just(1, 2, 3, 4)
@@ -118,7 +121,7 @@ public class ReactorExample {
   }
 
   @Test
-  void zipTest() {
+  public void zipTest() {
     // combining two streams
     List<String> elements = new ArrayList<>();
 
@@ -140,7 +143,7 @@ public class ReactorExample {
   }
 
   @Test
-  void connectableFluxTest() {
+  public void connectableFluxTest() {
 
     ConnectableFlux<Object> publish = Flux.create(fluxSink -> {
       while (true) {
@@ -158,7 +161,7 @@ public class ReactorExample {
   }
 
   @Test
-  void throttlingTest() {
+  public void throttlingTest() {
     ConnectableFlux<Object> publish = Flux.create(fluxSink -> {
       while (true) {
         fluxSink.next(System.currentTimeMillis());
@@ -173,7 +176,7 @@ public class ReactorExample {
   }
 
   @Test
-  void concurrencyTest() {
+  public void concurrencyTest() {
     List<Integer> elements = new ArrayList<>();
 
     /**
@@ -198,5 +201,44 @@ public class ReactorExample {
 
     System.out.println("After sleep");
     elements.forEach((n) -> System.out.println(n));
+  }
+
+  @Test
+  public void concatMapTest() {
+
+    final List<String> box1 = Arrays.asList(
+      new String[] { "dvd", "gun", "bomb", "gun", "coffee", "drug" });
+
+    final List<String> box2 = Arrays.asList(
+      new String[] { "cup", "desktop", "desktop", "chair" });
+
+    final List<String> box3 = Arrays.asList(
+      new String[] { "chair", "coffee", "water" });
+
+    final List<List<String>> boxes = Arrays.asList(box1, box2, box3);
+    final Flux<List<String>> boxFlux = Flux.fromIterable(boxes);
+
+    boxFlux.flatMap(box -> {
+      final Mono<List<String>> distinctBoxes = Flux.fromIterable(box).distinct().collectList();
+      final Mono<Map<String, Long>> countThingsMono =
+        Flux.fromIterable(box).groupBy(thing -> thing)
+            .concatMap(groupedFlux -> groupedFlux.count()
+                                                 .map(count -> {
+                                                   Map<String, Long> thingCount = new LinkedHashMap<>();
+                                                   thingCount.put(groupedFlux.key(), count);
+                                                   return thingCount;
+                                                 }))
+            .reduce((accumulatedMap, currentMap) -> new LinkedHashMap<String, Long>() {
+              {
+                putAll(accumulatedMap);
+                putAll(currentMap);
+              }
+            });
+
+//      connectableFlux.subscribe(System.out::println);
+//      connectableFlux.connect();
+
+      return Flux.zip(distinctBoxes, countThingsMono, (distinct, count) -> new FruitInfo(distinct, count));
+    }).subscribe(System.out::println);
   }
 }
