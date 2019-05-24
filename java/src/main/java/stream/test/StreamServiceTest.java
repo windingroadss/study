@@ -1,8 +1,9 @@
 package stream.test;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -70,5 +71,56 @@ public class StreamServiceTest {
         streamUser.forEach(user -> log.info(user.toString()));
 
         System.out.println("done");
+    }
+
+    @Test
+    public void temp() {
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        arrayList.add(0);
+        arrayList.add(1);
+        arrayList.add(2);
+        arrayList.add(1, 3);
+        System.out.println(arrayList);
+    }
+
+    @Test
+    public void temp2() {
+        Map<Integer, String> map = new TreeMap<>();
+        map.put(1, "A");
+        map.put(6, "A");
+        map.put(4, "A");
+        map.put(2, "A");
+
+        map.entrySet()
+           .stream()
+           .forEach(entry -> System.out.println(entry.getKey()));
+    }
+
+    @Test
+    public void test_sequential() {
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.add(4);
+        list.add(5);
+
+        List<Double> convertedList = list.stream().parallel().map(num -> Double.valueOf(num))
+                                         .collect(Collectors.toList());
+
+        System.out.println(list);
+        System.out.println(convertedList);
+    }
+
+    @Test
+    public void test_peek() {
+        List<String> numbers =Stream.of("one", "two", "three", "four")
+              .filter(e -> e.length() > 3)
+              .peek(e -> System.out.println("Filtered value: " + e))
+              .map(String::toUpperCase)
+              .peek(e -> System.out.println("Mapped value: " + e))
+              .collect(Collectors.toList());
+
+        System.out.println(numbers);
     }
 }

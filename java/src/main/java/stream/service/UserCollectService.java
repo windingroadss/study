@@ -1,7 +1,6 @@
 package stream.service;
 
 import java.util.stream.Collector;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import stream.model.User;

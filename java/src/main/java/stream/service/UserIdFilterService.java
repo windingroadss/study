@@ -17,7 +17,7 @@ public class UserIdFilterService implements FilterService<User> {
         Set<String> blockedUser = new HashSet<>();
         blockedUser.add("windingroad");
 
-        if(CollectionUtils.isEmpty(blockedUser)) {
+        if (CollectionUtils.isEmpty(blockedUser)) {
             return null;
         }
 
