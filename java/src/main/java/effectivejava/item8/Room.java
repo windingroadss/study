@@ -1,8 +1,8 @@
-package effectivejava.item8;
-
+//package effectivejava.item8;
+//
 //import java.lang.ref.Cleaner;
-
-// An autocloseable class using a cleaner as a safety net (Page 32)
+//
+//// An autocloseable class using a cleaner as a safety net (Page 32)
 //public class Room implements AutoCloseable {
 //    private static final Cleaner cleaner = Cleaner.create();
 //
@@ -15,8 +15,7 @@ package effectivejava.item8;
 //        }
 //
 //        // Invoked by close method or cleaner
-//        @Override
-//        public void run() {
+//        @Override public void run() {
 //            System.out.println("Cleaning room");
 //            numJunkPiles = 0;
 //        }
@@ -33,8 +32,7 @@ package effectivejava.item8;
 //        cleanable = cleaner.register(this, state);
 //    }
 //
-//    @Override
-//    public void close() {
+//    @Override public void close() {
 //        cleanable.clean();
 //    }
 //}
