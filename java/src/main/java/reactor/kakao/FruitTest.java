@@ -1,4 +1,4 @@
-package reactor;
+package reactor.kakao;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;

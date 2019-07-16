@@ -1,4 +1,4 @@
-package reactor;
+package reactor.kakao;
 
 import static java.time.Duration.ofSeconds;
 import static java.util.stream.Collectors.toList;
