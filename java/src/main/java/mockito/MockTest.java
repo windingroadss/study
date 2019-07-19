@@ -126,7 +126,7 @@ public class MockTest {
     AuthDao dao;
 
     @InjectMocks
-    AuthService service; // dao를
+    AuthService service; // dao를 inject
 
     @Test
     public void example6() {
