@@ -20,13 +20,16 @@ public class UserCollectService {
     }
 
     public Collector<User, ?, Stream<User>> getUserCollector() {
-        Collector<User, ?, HashMap<String, List<User>>> collector = Collectors.groupingBy(getUser(),
+        // User -> getUserGroupName Function Input
+        // ? is mapFactory (HashMap::new, TreeMap::new ...)
+        // M determined by mapFactory
+        Collector<User, ?, HashMap<String, List<User>>> collector = Collectors.groupingBy(getUserGroupName(),
                                                                                           HashMap::new,
                                                                                           Collectors.toList());
         return Collectors.collectingAndThen(collector, this::convertAfterGrouping);
     }
 
-    private Function<User, String> getUser() {
+    private Function<User, String> getUserGroupName() {
         return user -> {
             String groupName;
             if(user.getAge() <= 10) {
