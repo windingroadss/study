@@ -17,4 +17,5 @@ public class User implements Serializable {
     private String id;
     private String name;
     private int age;
+    private String groupName;
 }

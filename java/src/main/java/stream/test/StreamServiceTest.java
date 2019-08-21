@@ -20,6 +20,7 @@ import stream.StreamSpringBootApplication;
 import stream.comparator.UserComparator;
 import stream.model.User;
 import stream.service.DuplicateUserFilterService;
+import stream.service.UserCollectService;
 import stream.service.UserIdFilterService;
 
 @Slf4j
@@ -36,6 +37,9 @@ public class StreamServiceTest {
 
     @Autowired
     private DuplicateUserFilterService duplicateUserFilterService;
+
+    @Autowired
+    private UserCollectService userCollectService;
 
     @Before
     public void init() {
@@ -122,5 +126,19 @@ public class StreamServiceTest {
                                      .collect(Collectors.toList());
 
         System.out.println(numbers);
+    }
+
+    @Test
+    public void test_getUserCollector() {
+        Stream<User> userStream = List.of(
+            User.builder().age(20).name("A").build(),
+            User.builder().age(15).name("B").build(),
+            User.builder().age(4).name("C").build(),
+            User.builder().age(35).name("D").build(),
+            User.builder().age(30).name("E").build()).stream();
+
+        userCollectService.getGroupedUserStream(userStream)
+                          .forEach(user -> System.out.println(user));
+
     }
 }

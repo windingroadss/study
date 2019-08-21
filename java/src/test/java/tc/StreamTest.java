@@ -1,5 +1,6 @@
 package tc;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -55,5 +56,21 @@ public class StreamTest {
     @ToString
     static class Hobby {
         String hobbyName;
+    }
+
+    @Test
+    public void test_emptyList() {
+        List<String> list = new ArrayList<>();
+        list.stream()
+            .collect(Collectors.toList());
+        System.out.println(list);
+    }
+
+    @Test
+    public void test_nullList() {
+        List<String> list = null;
+        list.stream()
+            .collect(Collectors.toList());
+        System.out.println(list);
     }
 }
