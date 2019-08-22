@@ -141,4 +141,15 @@ public class StreamServiceTest {
                           .forEach(user -> System.out.println(user));
 
     }
+
+    @Test
+    public void test_allFilteredOutCollect() {
+        List<String> convertedlist = List.of(1, 2, 3)
+                                         .stream()
+                                         .filter(number -> number > 5)
+                                         .map(number -> String.valueOf(number))
+                                         .collect(Collectors.toList());
+
+        System.out.println(convertedlist.size());
+    }
 }

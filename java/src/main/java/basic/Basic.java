@@ -3,6 +3,7 @@ package basic;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -29,5 +30,12 @@ public class Basic {
         String s2 = IterableUtils.get(Set.of("1", "2", "3"), 0);
         System.out.println(s1 + "," + s2);
         assertEquals(s1, s2);
+    }
+
+    @Test
+    public void test_castNullObject() {
+        Map<Integer, Object> map = Map.of(1, "1", 2, "2");
+        String str = (String) map.get(3);
+        System.out.println(str);
     }
 }
