@@ -3,6 +3,7 @@ package stream.test;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.TreeMap;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -151,5 +152,13 @@ public class StreamServiceTest {
                                          .collect(Collectors.toList());
 
         System.out.println(convertedlist.size());
+    }
+
+    @Test
+    public void test_emptyList() {
+        List<String> list = null;
+
+        // ofNullable 로 NPE 방어
+        Optional.ofNullable(list).stream();
     }
 }
