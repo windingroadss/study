@@ -21,7 +21,7 @@ set_scf_result() {
     SCF_RESULT=$(grep "$SCF_CONDITION_1" ${FILE_NAME} | awk '{ printf $5 "(RPW91)" }')
     if [[ -z ${SCF_RESULT} ]]
     then
-        SCF_RESULT=$(grep 'SCF Done:  E(UPW91-PW91)' APA-2.txt | awk '{ printf $5 "(UPW91)" }')
+        SCF_RESULT=$(grep "$SCF_CONDITION_2" APA-2.txt | awk '{ printf $5 "(UPW91)" }')
     fi
 
     if [[ -z ${SCF_RESULT} ]]
