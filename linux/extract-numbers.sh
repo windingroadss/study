@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# This file need to be located in where data files exist
+
 SCF_CONDITION_1="SCF Done:  E(RPW91-PW91)"
 SCF_CONDITION_2="SCF Done:  E(UPW91-PW91)"
 EXCITED_CONDITION="Excited State   1:  "
@@ -14,7 +16,16 @@ get_values() {
     set_excited_result
     set_eigen_values
     set_virt_values
-    echo "${SCF_RESULT}|${EXCITED_RESULT}|${EIGEN_OCC_RESULT}|${EIGEN_VIRT_RESULT}" >> ${OUTPUT_FILE_NAME}
+    echo "${FILE_NAME}|${SCF_RESULT}|${EXCITED_RESULT}|${EIGEN_OCC_RESULT}|${EIGEN_VIRT_RESULT}" >> ${OUTPUT_FILE_NAME}
+}
+
+set_file_names() {
+    echo "[FILE LIST]"
+    FILE_NAMES=$(ls *."${FILE_EXT}" | awk '{ for(i=1; i<=NF; i++) print $i; }')
+    for file in ${FILE_NAMES}
+    do
+        echo ${file}
+    done
 }
 
 set_scf_result() {
@@ -86,7 +97,6 @@ set_eigen_values() {
     fi
 }
 
-
 set_virt_values() {
     EIGEN_VIRT_RESULT=$(grep "$EIGEN_VIRT_CONDITION" ${FILE_NAME})
 
@@ -116,20 +126,11 @@ set_virt_values() {
     fi
 }
 
-FILE_PREFIX=${1}
 FILE_POSTFIX=1
-FILE_EXT=${2}
-
-if [[ -n ${FILE_PREFIX} ]]
-then
-  echo "File prefix : ${FILE_PREFIX}"
-else
-  echo "Error: Please input file prefix"
-  exit 1
-fi
+FILE_EXT=${1}
 
 OUTPUT_FILE_NAME="result-$(date +"%Y%m%d-%H%M%S").txt"
-echo ${OUTPUT_FILE_NAME}
+echo "Output will be written in ${OUTPUT_FILE_NAME}"
 
 if [[ -n ${FILE_EXT} ]]
 then
@@ -140,12 +141,18 @@ else
 fi
 
 echo ""
-echo "SCF_Done:__E(RPW91-PW91)|Excited_State___1:______Singlet-A|Alpha__occ._eigenvalues|Alpha_virt._eigenvalues" >> ${OUTPUT_FILE_NAME}
+echo "File Name|SCF_Done:__E(RPW91-PW91)|Excited_State___1:______Singlet-A|Alpha__occ._eigenvalues|Alpha_virt._eigenvalues" >> ${OUTPUT_FILE_NAME}
 
-FILE_NAME=${FILE_PREFIX}${FILE_POSTFIX}.${FILE_EXT}
-while [[ -f "${FILE_NAME}" ]]
+set_file_names
+
+echo ""
+echo "[GET DATA FROM FILE LIST]"
+for file in ${FILE_NAMES}
 do
-  get_values
-  ((FILE_POSTFIX++))
-  FILE_NAME=${FILE_PREFIX}${FILE_POSTFIX}.txt
+    FILE_NAME=${file}
+    get_values
+    echo "${FILE_NAME} : extraction is done"
 done
+
+echo ""
+echo "Please check the file ${OUTPUT_FILE_NAME}"
