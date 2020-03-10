@@ -32,13 +32,12 @@ set_scf_result() {
     SCF_RESULT=$(grep "$SCF_CONDITION_1" ${FILE_NAME} | awk '{ printf $5 "(RPW91)" }')
     if [[ -z ${SCF_RESULT} ]]
     then
-        SCF_RESULT=$(grep "$SCF_CONDITION_2" APA-2.txt | awk '{ printf $5 "(UPW91)" }')
+        SCF_RESULT=$(grep "$SCF_CONDITION_2" ${FILE_NAME} | awk '{ printf $5 "(UPW91)" }')
     fi
 
     if [[ -z ${SCF_RESULT} ]]
     then
         echo "${FILE_NAME} Error: cannot get SCF_RESULT"
-        exit 1
     fi
 }
 
@@ -66,7 +65,6 @@ set_excited_result() {
     if ! [[ ${EXCITED_RESULT} =~ ${NUMBER_RE} ]]
     then
        echo "${FILE_NAME} Error: EXCITED_RESULT is not a number"
-       exit 1
     fi
 }
 
@@ -93,7 +91,6 @@ set_eigen_values() {
     if ! [[ ${EIGEN_OCC_RESULT} =~ ${NUMBER_RE} ]]
     then
        echo "${FILE_NAME} Error: EIGEN_OCC_RESULT is not a number"
-       exit 1
     fi
 }
 
@@ -122,7 +119,6 @@ set_virt_values() {
     if ! [[ ${EIGEN_VIRT_RESULT} =~ ${NUMBER_RE} ]]
     then
        echo "${FILE_NAME} Error: EIGEN_VIRT_RESULT is not a number"
-       exit 1
     fi
 }
 
