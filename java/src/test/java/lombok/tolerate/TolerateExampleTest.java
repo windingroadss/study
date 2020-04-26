@@ -7,7 +7,7 @@ import java.util.Date;
 
 import org.junit.Test;
 
-class TolerateExampleTest {
+public class TolerateExampleTest {
 
     @Test
     public void test() {
